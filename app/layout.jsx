@@ -1,3 +1,5 @@
+import "@/assets/styles/global.css";
+
 const MainLayout = ({ children }) => {
   return (
     <html>
