@@ -1,3 +1,7 @@
+import Image from "next/image";
+import logo from "@/assets/images/logo-white.png";
+import profileDefault from "@/assets/images/profile.png";
+
 const Navbar = () => {
   return (
     <nav className="bg-blue-700 border-b border-blue-500">
@@ -30,11 +34,7 @@ const Navbar = () => {
 
           <div className="flex flex-1 items-center justify-center md:items-stretch md:justify-start">
             <a className="flex flex-shrink-0 items-center" href="/index.html">
-              <img
-                className="h-10 w-auto"
-                src="images/logo-white.png"
-                alt="PropertyPulse"
-              />
+              <Image className="h-10 w-auto" src={logo} alt="Rent App Logo" />
 
               <span className="hidden md:block text-white text-2xl font-bold ml-2">
                 PropertyPulse
@@ -107,10 +107,10 @@ const Navbar = () => {
                   aria-haspopup="true">
                   <span className="absolute -inset-1.5"></span>
                   <span className="sr-only">Open user menu</span>
-                  <img
+                  <Image
                     className="h-8 w-8 rounded-full"
-                    src="/images/profile.png"
-                    alt=""
+                    src={profileDefault}
+                    alt="Profile Picture"
                   />
                 </button>
               </div>
