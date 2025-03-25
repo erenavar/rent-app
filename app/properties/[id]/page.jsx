@@ -7,7 +7,7 @@ const PropertyPage = async ({ params }) => {
   const property = await Property.findById(params.id).lean();
   return (
     <>
-      <PropertyHeaderImage />
+      <PropertyHeaderImage image={property.images[0]} />
       <section>{property.name}</section>
     </>
   );
