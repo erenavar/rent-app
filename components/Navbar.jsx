@@ -1,5 +1,5 @@
 "use client";
-import { useState, useSyncExternalStore } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -18,8 +18,20 @@ const Navbar = () => {
   const { data: session } = useSession();
   const [isOpen, setIsOpen] = useState(false);
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
-
   const pathName = usePathname();
+  const [providers, setProviders] = useState(null);
+
+  useEffect(() => {
+    const setAuthProviders = async () => {
+      try {
+        const res = await getProviders();
+        setProviders(res);
+      } catch (error) {
+        console.error("Provider :", error);
+      }
+    };
+    setAuthProviders();
+  }, []);
 
   return (
     <nav className="bg-blue-700 border-b border-blue-500">
