@@ -1,6 +1,6 @@
-import User from "@/models/User";
 import GoogleProvider from "next-auth/providers/google";
-import { FaDatabase } from "react-icons/fa";
+import connectDB from "@/config/database";
+import User from "@/models/User";
 
 export const authOptions = {
   providers: [
@@ -17,7 +17,23 @@ export const authOptions = {
     }),
   ],
   callbacks: {
-    async signIn({ profile }) {},
+    async signIn({ profile }) {
+      try {
+        await connectDB();
+        const userExists = await User.findOne({ email: profile.email });
+        if (!userExists) {
+          const userName = User.name.slice(0, 20);
+          await User.create({
+            email: profile.email,
+            username,
+            image: profile.picture,
+          });
+        }
+      } catch (error) {
+        console.log("signIn Error :", error);
+      }
+      return true;
+    },
     async session({ session }) {},
   },
 };
