@@ -16,7 +16,7 @@ import {
 
 const Navbar = () => {
   const { data: session } = useSession();
-  console.log(session);
+  const profileImage = session?.user?.image;
   const [isOpen, setIsOpen] = useState(false);
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   const pathName = usePathname();
@@ -170,7 +170,9 @@ const Navbar = () => {
                     <span className="sr-only">Open user menu</span>
                     <Image
                       className="h-8 w-8 rounded-full"
-                      src={profileDefault}
+                      src={profileImage || profileDefault}
+                      height={40}
+                      width={40}
                       alt="Profile Picture"
                     />
                   </button>
