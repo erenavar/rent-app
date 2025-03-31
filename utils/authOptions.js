@@ -21,8 +21,9 @@ export const authOptions = {
       try {
         await connectDB();
         const userExists = await User.findOne({ email: profile.email });
+
         if (!userExists) {
-          const userName = User.name.slice(0, 20);
+          const username = profile.name.slice(0, 20); // Doğru değişkeni kullan
           await User.create({
             email: profile.email,
             username,
@@ -30,7 +31,7 @@ export const authOptions = {
           });
         }
       } catch (error) {
-        console.log("signIn Error :", error);
+        console.log("signIn Error:", error);
       }
       return true;
     },
@@ -38,9 +39,14 @@ export const authOptions = {
       try {
         await connectDB();
         const user = await User.findOne({ email: session.user.email });
-        session.user.id = user._id.toString();
+
+        if (user) {
+          session.user.id = user._id.toString();
+        } else {
+          console.log("User not found in session callback");
+        }
       } catch (error) {
-        console.log("session error :", error);
+        console.log("Session error:", error);
       }
       return session;
     },
