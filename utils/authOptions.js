@@ -34,6 +34,15 @@ export const authOptions = {
       }
       return true;
     },
-    async session({ session }) {},
+    async session({ session }) {
+      try {
+        await connectDB();
+        const user = await User.findOne({ email: session.user.email });
+        session.user.id = user._id.toString();
+      } catch (error) {
+        console.log("session error :", error);
+      }
+      return session;
+    },
   },
 };
