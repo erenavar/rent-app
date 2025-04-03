@@ -9,12 +9,13 @@ import { redirect } from "next/navigation";
 async function addProperty(formData) {
   await connectDB();
   const sessionUser = await getSessionUser();
-  if (!session == !session.userId) {
+
+  if (!sessionUser || !sessionUser.userId) {
     throw new Error("User ID is required.");
   }
   const { userId } = sessionUser;
   const propertyData = {
-    ownser: userId,
+    owner: userId,
     type: formData.get("type"),
     name: formData.get("name"),
     description: formData.get("description"),
