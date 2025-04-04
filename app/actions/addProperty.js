@@ -44,7 +44,10 @@ async function addProperty(formData) {
       .filter((image) => image.name !== "")
       .map((image) => image.name),
   };
-  console.log(propertyData);
+  const newProperty = new Property(propertyData);
+  await newProperty.save();
+  revalidatePath("/", "layout");
+  redirect(`${newProperty.id}`);
 }
 
 export default addProperty;
