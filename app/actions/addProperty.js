@@ -5,6 +5,7 @@ import Property from "@/models/Property";
 import { getSessionUser } from "@/utils/getSessionUser";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import cloudinary from "@/config/cloudinary";
 
 async function addProperty(formData) {
   await connectDB();
@@ -14,6 +15,7 @@ async function addProperty(formData) {
     throw new Error("User ID is required.");
   }
   const { userId } = sessionUser;
+  images: formData.getAll("images").filter((image) => image.name !== "");
   const propertyData = {
     owner: userId,
     type: formData.get("type"),
@@ -39,11 +41,28 @@ async function addProperty(formData) {
       email: formData.get("seller_info.email"),
       phone: formData.get("seller_info.phone"),
     },
-    images: formData
-      .getAll("images")
-      .filter((image) => image.name !== "")
-      .map((image) => image.name),
+    images,
   };
+
+  const imageUrls = [];
+  for (const imageFile of images) {
+    const imageBuffer = await imageFile.arrayBuffer();
+    const imageArray = Array.from(new Uint8Array(imageBuffer));
+    const imageData = Buffer.from(imageArray);
+
+    // Convert to base64
+    const imageBased64 = imageData.toString("base64");
+
+    //Make request to Cloudinary
+    const result = await cloudinary.uploader.upload(
+      `data:image/png;base64,${imageBased64}`,
+      {
+        folder: "rent-app",
+      }
+    );
+  }
+
+  ima;
   const newProperty = new Property(propertyData);
   await newProperty.save();
   revalidatePath("/", "layout");
