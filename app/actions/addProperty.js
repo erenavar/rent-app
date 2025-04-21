@@ -15,7 +15,7 @@ async function addProperty(formData) {
     throw new Error("User ID is required.");
   }
   const { userId } = sessionUser;
-  images: formData.getAll("images").filter((image) => image.name !== "");
+  const images = formData.getAll("images").filter((image) => image.name !== "");
   const propertyData = {
     owner: userId,
     type: formData.get("type"),
@@ -60,9 +60,10 @@ async function addProperty(formData) {
         folder: "rent-app",
       }
     );
+    imageUrls.push(result.secure_url);
   }
 
-  ima;
+  propertyData.images = imageUrls;
   const newProperty = new Property(propertyData);
   await newProperty.save();
   revalidatePath("/", "layout");
