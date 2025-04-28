@@ -1,4 +1,5 @@
 import connectDB from "@/config/database";
+import Property from "@/models/Property";
 import { getSessionUser } from "@/utils/getSessionUser";
 import Image from "next/image";
 import Link from "next/link";
@@ -13,6 +14,8 @@ const Profile = async () => {
   if (!userId) {
     throw new Error("User ID is required");
   }
+
+  const properties = await Property.find({ owner: userId }).lean();
 
   return (
     <section className="bg-blue-50">
