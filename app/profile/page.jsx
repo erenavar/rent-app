@@ -15,9 +15,7 @@ const Profile = async () => {
     return (
       <section className="bg-blue-50 py-10">
         <div className="container m-auto px-4 py-6 text-center">
-          <p className="text-xl">
-            Bu sayfayı görüntülemek için giriş yapmalısınız.
-          </p>
+          <p className="text-xl">"You must log in to view this page."</p>
         </div>
       </section>
     );
@@ -46,19 +44,19 @@ const Profile = async () => {
                 />
               </div>
               <h2 className="text-2xl mb-4">
-                <span className="font-bold block">Ad: </span>{" "}
+                <span className="font-bold block">Name: </span>{" "}
                 {sessionUser.user.name}
               </h2>
               <h2 className="text-2xl">
-                <span className="font-bold block">E-posta: </span>{" "}
+                <span className="font-bold block">Email: </span>{" "}
                 {sessionUser.user.email}
               </h2>
             </div>
 
             <div className="md:w-3/4 md:pl-4">
-              <h2 className="text-xl font-semibold mb-4">İlanlarınız</h2>
+              <h2 className="text-xl font-semibold mb-4">Your Listings</h2>
               {properties.length === 0 ? (
-                <p>Henüz hiçbir mülk ilanı eklemediniz.</p>
+                <p>You have not added any property listings yet.</p>
               ) : (
                 properties.map((property) => (
                   <div key={property._id} className="mb-10">
@@ -69,14 +67,14 @@ const Profile = async () => {
                           src={property.images[0]}
                           width={200}
                           height={200}
-                          alt="Mülk Resmi"
+                          alt="Property Image"
                         />
                       )}
                     </Link>
                     <div className="mt-2">
                       <p className="text-lg font-semibold">{property.name}</p>
                       <p className="text-gray-600">
-                        Adres: {property.location.street},{" "}
+                        Address: {property.location.street},{" "}
                         {property.location.city}, {property.location.state}
                       </p>
                     </div>
@@ -84,12 +82,12 @@ const Profile = async () => {
                       <Link
                         href={`/properties/${property._id}/edit`}
                         className="bg-blue-500 text-white px-3 py-2 rounded-md mr-2 hover:bg-blue-600">
-                        Düzenle
+                        Edit
                       </Link>
                       <button
                         className="bg-red-500 text-white px-3 py-2 rounded-md hover:bg-red-600"
                         type="button">
-                        Sil
+                        Delete
                       </button>
                     </div>
                   </div>
