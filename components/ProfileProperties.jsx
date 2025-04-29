@@ -1,11 +1,12 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 
 const ProfileProperties = ({ properties: initialProperties }) => {
   const [properties, setProperties] = useState(initialProperties);
 
-  return properties.map((property) => (
+  return properties.map((property, index) => (
     <div className="mb-10">
       <Link href="/property">
         <Image
