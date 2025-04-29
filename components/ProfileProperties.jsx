@@ -1,5 +1,6 @@
 "use client";
 
+import { getSessionUser } from "@/utils/getSessionUser";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -11,7 +12,7 @@ const ProfileProperties = ({ properties: initialProperties }) => {
       <Link href="/property">
         <Image
           className="h-32 w-full rounded-md object-cover"
-          src="/images/properties/a1.jpg"
+          src={sessionUser.user.image || profileDefault}
           width={200}
           height={200}
           alt="Property 1"

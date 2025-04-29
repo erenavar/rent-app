@@ -1,9 +1,9 @@
-import ProfileProperties from "@/components/ProfileProperties";
 import connectDB from "@/config/database";
 import Property from "@/models/Property";
 import { convertToSerializableObject } from "@/utils/convertToObject";
 import { getSessionUser } from "@/utils/getSessionUser";
 import Image from "next/image";
+import Link from "next/link";
 
 const Profile = async () => {
   await connectDB();
@@ -36,7 +36,6 @@ const Profile = async () => {
                   alt="User"
                 />
               </div>
-
               <h2 className="text-2xl mb-4">
                 <span className="font-bold block">Name: </span>{" "}
                 {sessionUser.user.name}
@@ -49,7 +48,33 @@ const Profile = async () => {
 
             <div className="md:w-3/4 md:pl-4">
               <h2 className="text-xl font-semibold mb-4">Your Listings</h2>
-              <ProfileProperties properties={properties} />
+              <div className="mb-10">
+                <Link href="/property.html">
+                  <Image
+                    className="h-32 w-full rounded-md object-cover"
+                    src={sessionUser.user.image || profileDefault}
+                    width={200}
+                    height={200}
+                    alt="Property 1"
+                  />
+                </Link>
+                <div className="mt-2">
+                  <p className="text-lg font-semibold">Property Title 1</p>
+                  <p className="text-gray-600">Address: 123 Main St</p>
+                </div>
+                <div className="mt-2">
+                  <Link
+                    href="/properties/add"
+                    className="bg-blue-500 text-white px-3 py-3 rounded-md mr-2 hover:bg-blue-600">
+                    Edit
+                  </Link>
+                  <button
+                    className="bg-red-500 text-white px-3 py-2 rounded-md hover:bg-red-600"
+                    type="button">
+                    Delete
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </div>

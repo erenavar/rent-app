@@ -4,7 +4,7 @@ const UserSchema = new Schema(
   {
     email: {
       type: String,
-      unique: [true, "Email is exist"],
+      unique: [true, "Email already exists"],
       required: [true, "Email is required"],
     },
     username: {
@@ -21,7 +21,9 @@ const UserSchema = new Schema(
       },
     ],
   },
-  { timestamps: true }
+  {
+    timestamps: true,
+  }
 );
 
 const User = models.User || model("User", UserSchema);

@@ -16,7 +16,7 @@ import {
 
 const Navbar = () => {
   const { data: session } = useSession();
-  console.log(session);
+
   const profileImage = session?.user?.image;
   const [isOpen, setIsOpen] = useState(false);
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
