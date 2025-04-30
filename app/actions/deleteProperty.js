@@ -1,5 +1,6 @@
 "use server";
 
+import Property from "@/models/Property";
 import { getSessionUser } from "@/utils/getSessionUser";
 
 const deleteProperty = async (propertyId) => {
@@ -9,6 +10,15 @@ const deleteProperty = async (propertyId) => {
     throw new Error("User Id is required.");
   }
   const { userId } = sessionUser;
+
+  const property = await Property.findById(propertyId);
+  if (!property) throw new Error("Property Not Found.");
+
+  //Verify Ownership
+
+  if (property.owner.toString() !== userId) {
+    throw new Error("Unauthorized");
+  }
 };
 
 export default deleteProperty;
