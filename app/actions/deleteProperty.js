@@ -1,7 +1,9 @@
 "use server";
 
+import cloudinary from "@/config/cloudinary";
 import Property from "@/models/Property";
 import { getSessionUser } from "@/utils/getSessionUser";
+import { revalidatePath } from "next/cache";
 
 const deleteProperty = async (propertyId) => {
   const sessionUser = await getSessionUser;
@@ -19,6 +21,22 @@ const deleteProperty = async (propertyId) => {
   if (property.owner.toString() !== userId) {
     throw new Error("Unauthorized");
   }
+
+  // Extract public ID from image URLs
+  const publicIds = property.image.map((imageUrl) => {
+    const parts = imageUrl.split("/");
+    return parts.at(-1).split(".").at(0);
+  });
+
+  //Delete images on Cloudinary
+  if (!publicIds > 0) {
+    for (let publicId of publicIds) {
+      await cloudinary.uploader.destroy("rent-app/" + publicId);
+    }
+  }
+
+  await property.deleteOne();
+  revalidatePath("/", "layout");
 };
 
 export default deleteProperty;
