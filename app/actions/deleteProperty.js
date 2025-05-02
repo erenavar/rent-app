@@ -35,7 +35,8 @@ const deleteProperty = async (propertyId) => {
     }
   }
 
-  await property.deleteOne();
+  await property.deleteOne().map(convertToSerializableObject);
+
   revalidatePath("/", "layout");
 };
 
