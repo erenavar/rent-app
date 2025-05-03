@@ -5,9 +5,14 @@ import { convertToSerializableObject } from "@/utils/convertToObject";
 
 const PropertyEditPage = async ({ params }) => {
   await connectDB();
-  const propertyDoc = Property.findById(params.id).lean();
+  const propertyDoc = await Property.findById(params.id).lean();
   const property = convertToSerializableObject(propertyDoc);
-  console.log(property);
+
+  if (!property) {
+    <h1 className="text-center text-2xl font-bold mt-10">
+      Property Not Found
+    </h1>;
+  }
   return (
     <section className="bg-blue-50">
       <div className="container m-auto max-w-2xl py-24">
