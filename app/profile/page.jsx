@@ -24,7 +24,9 @@ const Profile = async () => {
   const { userId } = sessionUser;
 
   const propertiesDocs = await Property.find({ owner: userId }).lean();
-  const properties = propertiesDocs.map(convertToSerializableObject);
+  const properties = propertiesDocs.map((doc) =>
+    convertToSerializableObject(doc, new Set())
+  );
 
   return (
     <section className="bg-blue-50">
