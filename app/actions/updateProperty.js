@@ -3,6 +3,8 @@
 import connectDB from "@/config/database";
 import Property from "@/models/Property";
 import { getSessionUser } from "@/utils/getSessionUser";
+import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 
 async function updateProperty(propertyId, formData) {
   await connectDB();
@@ -43,6 +45,13 @@ async function updateProperty(propertyId, formData) {
     },
     owner: userId,
   };
+
+  const updatedProperty = await Property.findByIdAndUpdate(
+    propertyId,
+    PropertyData
+  );
+  revalidatePath("/", "layout");
+  redirect(`/properties/${updatedProperty._id}`);
 }
 
 export default updateProperty;
