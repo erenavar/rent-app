@@ -48,7 +48,7 @@ async function updateProperty(propertyId, formData) {
 
   const updatedProperty = await Property.findByIdAndUpdate(
     propertyId,
-    PropertyData
+    propertyData
   );
   revalidatePath("/", "layout");
   redirect(`/properties/${updatedProperty._id}`);
