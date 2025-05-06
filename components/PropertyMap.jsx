@@ -1,4 +1,6 @@
-const PropertyMap = () => {
+"use client";
+
+const PropertyMap = ({ property }) => {
   return <div>Map</div>;
 };
 
