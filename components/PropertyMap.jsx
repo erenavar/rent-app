@@ -5,7 +5,7 @@ import { fromAddress, setDefaults } from "react-geocode";
 
 const PropertyMap = ({ property }) => {
   const [lat, setLat] = useState(null);
-  const [long, setLong] = useState(null);
+  const [lng, setLng] = useState(null);
   const [viewport, setViewport] = useState({
     latiutude: 0,
     longitude: 0,
@@ -33,8 +33,14 @@ const PropertyMap = ({ property }) => {
           setGeocodeError(true);
           return;
         }
-        const { lat, long } = res.results[0].geometry.location;
-        console.log(lat, lang);
+        const { lat, lng } = res.results[0].geometry.location;
+        setLat(lat);
+        setLng(lng);
+        setViewport({
+          ...viewport,
+          latiutude: lat,
+          longitude: lng,
+        });
       } catch (error) {
         console.log("Fetching Coords: " + error);
         setGeocodeError(true);
@@ -44,6 +50,11 @@ const PropertyMap = ({ property }) => {
     };
     fetchCoords();
   }, []);
+
+  if (loading) return;
+  <h3>Loading...</h3>;
+  if (geocodeError)
+    return <div className="text-xl">No Location Data Found</div>;
 
   return <div>Map</div>;
 };
