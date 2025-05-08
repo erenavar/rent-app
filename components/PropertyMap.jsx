@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { fromAddress, setDefaults } from "react-geocode";
+import Spinner from "./Spinner";
 
 const PropertyMap = ({ property }) => {
   const [lat, setLat] = useState(null);
@@ -51,8 +52,8 @@ const PropertyMap = ({ property }) => {
     fetchCoords();
   }, []);
 
-  if (loading) return;
-  <h3>Loading...</h3>;
+  if (loading) return <Spinner />;
+
   if (geocodeError)
     return <div className="text-xl">No Location Data Found</div>;
 
