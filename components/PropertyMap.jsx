@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react";
 import { fromAddress, setDefaults } from "react-geocode";
 import Spinner from "./Spinner";
+import Map, { Marker } from "react-map-gl/maplibre";
+import "maplibre-gl/dist/maplibre-gl.css";
 
 const PropertyMap = ({ property }) => {
   const [lat, setLat] = useState(null);
@@ -57,7 +59,21 @@ const PropertyMap = ({ property }) => {
   if (geocodeError)
     return <div className="text-xl">No Location Data Found</div>;
 
-  return <div>Map</div>;
+  return (
+    !loading && (
+      <Map
+        mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_TOKEN}
+        initialViewState={{
+          longitude: lng,
+          latitude: lat,
+          zoom: 14,
+        }}
+        style={{ width: "100%", height: 500 }}
+        mapStyle="mapbox://styles/mapbox/streets-v9">
+        <Marker latitude={lat} longitude={lng}></Marker>
+      </Map>
+    )
+  );
 };
 
 export default PropertyMap;
